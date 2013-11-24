@@ -18,5 +18,9 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ceres-pallas/asteroids-game/issues"
+  },
+  "dependencies": {
+    "asteroids-asteroid": "0.0.0",
+    "asteroids-listener": "0.0.1"
   }
 }
