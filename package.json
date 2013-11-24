@@ -22,5 +22,9 @@
   "dependencies": {
     "asteroids-asteroid": "0.0.0",
     "asteroids-listener": "0.0.1"
+  },
+  "devDependencies": {
+    "chai": "~1.8.1",
+    "mocha": "~1.14.0"
   }
 }
