@@ -96,6 +96,20 @@ describe('Game', function(){
 
 		game.tick();
 	    });
+
+	    it('should update the fighters', function(done){
+		var asteroid = game.addAsteroid();
+		game.addFighter(asteroid);
+		var count = 0;
+		asteroid.addListener('position', function(){
+		    count++;
+		    if (count >= 2) {
+			done();
+		    }
+		});
+
+		game.tick();
+	    });
 	});
     });
 });
