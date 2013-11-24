@@ -1,0 +1,22 @@
+{
+  "name": "asteroids-game",
+  "version": "0.0.0",
+  "description": "The object managing all the Asteroids objects",
+  "main": "lib/game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ceres-pallas/asteroids-game.git"
+  },
+  "keywords": [
+    "asteroids",
+    "game"
+  ],
+  "author": "Daan van Berkel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ceres-pallas/asteroids-game/issues"
+  }
+}
