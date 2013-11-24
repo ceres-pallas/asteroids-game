@@ -26,7 +26,7 @@ describe('Game', function(){
 	    game = new Game(options);
 	});
 
-	['tick', 'state'].forEach(function(methodName){
+	['tick', 'state', 'addAsteroid'].forEach(function(methodName){
 	    it('should respond to ' + methodName, function(){
 		expect(game).to.respondTo(methodName);
 	    });
@@ -43,6 +43,47 @@ describe('Game', function(){
 		it('should have a key ' + key, function(){
 		    expect(state).to.contain.keys(key);
 		});
+	    });
+	})
+    });
+
+    describe('interactions', function(){
+	var options = {
+	    width: 640,
+	    height: 480,
+	    asteroidInitializer: function(asteroid){
+		asteroid.position({ x: 0, y: 0});
+		asteroid.velocity({ speed: 1, heading: 0});
+	    }
+	};
+	var game;
+
+	beforeEach(function(){
+	    game = new Game(options);
+	});
+
+	describe('#addAsteroid', function(){
+	    it('should add asteroids', function(){
+		var asteroid = game.addAsteroid();
+
+		expect(asteroid).to.exist;
+	    });
+
+	    it('should change state when adding asteroid', function(){
+		var asteroid = game.addAsteroid();
+
+		var state = game.state();
+
+		expect(state.asteroids.length).to.equal(1);
+	    });
+	});
+
+	describe('#tick', function(){
+	    it('should update the asteroids', function(done){
+		var asteroid = game.addAsteroid();
+		asteroid.addListener('position', done);
+
+		game.tick();
 	    });
 	})
     });
