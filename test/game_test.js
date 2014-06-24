@@ -2,6 +2,7 @@ var expect = require('chai').expect;
 
 var Game = require('../lib/game');
 var Fighter = require('asteroids-fighter');
+var Bullet = require('asteroids-bullet');
 
 describe('Game', function(){
     it('should exist', function(){
@@ -27,7 +28,7 @@ describe('Game', function(){
             game = new Game(options);
         });
 
-        ['tick', 'state', 'addAsteroid', 'addFighter'].forEach(function(methodName){
+        ['tick', 'state', 'addAsteroid', 'addFighter', 'addBullet'].forEach(function(methodName){
             it('should respond to ' + methodName, function(){
                 expect(game).to.respondTo(methodName);
             });
@@ -62,7 +63,7 @@ describe('Game', function(){
                 state = game.state();
             });
 
-            ['fighters', 'asteroids'].forEach(function(key){
+            ['fighters', 'asteroids', 'bullets'].forEach(function(key){
                 it('should have a key ' + key, function(){
                     expect(state).to.contain.keys(key);
                 });
@@ -112,6 +113,17 @@ describe('Game', function(){
             });
         });
 
+        describe('#addBullet', function(){
+            it('should change state when adding bullet', function(){
+                var bullet = new Bullet();
+                game.addBullet(bullet);
+
+                var state = game.state();
+
+                expect(state.bullets.length).to.equal(1);
+            });
+        });
+
         describe('#tick', function(){
             it('should update the asteroids', function(done){
                 var asteroid = game.addAsteroid();
@@ -130,6 +142,16 @@ describe('Game', function(){
                         done();
                     }
                 });
+
+                game.tick();
+            });
+
+            it('should update the bullets', function(done){
+                var bullet = new Bullet(function(bullet){
+					bullet.speed(1);
+				});
+                game.addBullet(bullet);
+                bullet.addListener('position', done);
 
                 game.tick();
             });
@@ -257,6 +279,69 @@ describe('Game', function(){
                     game.tick();
 
                     expect(fighter.y()).to.equal(4);
+                });
+            });
+
+            describe('should normalize bullets', function(){
+                var options;
+
+                beforeEach(function(){
+                    options = {
+                        width: 10,
+                        height: 5
+                    }
+                })
+
+                it('for to large values in x direction', function(){
+                    game = new Game(options);
+                    var bullet = new Bullet(function(bullet){
+                        bullet.position({ x: 10, y: 0 });
+                        bullet.velocity({ speed: 1, heading: 0 });
+                    });
+                    game.addBullet(bullet);
+
+                    game.tick();
+
+                    expect(bullet.x()).to.equal(1);
+                });
+
+                it('for to negative values in x direction', function(){
+                    game = new Game(options);
+                    var bullet = new Bullet(function(bullet){
+                        bullet.position({ x: 0, y: 0 });
+                        bullet.velocity({ speed: 1, heading: Math.PI });
+                    });
+                    game.addBullet(bullet);
+
+                    game.tick();
+
+                    expect(bullet.x()).to.equal(9);
+                });
+
+                it('for to large values in y direction', function(){
+                    game = new Game(options);
+                    var bullet = new Bullet(function(bullet){
+                        bullet.position({ x: 0, y: 5 });
+                        bullet.velocity({ speed: 1, heading: Math.PI/2 });
+                    });
+                    game.addBullet(bullet);
+
+                    game.tick();
+
+                    expect(bullet.y()).to.equal(1);
+                });
+
+                it('for to negative values in x direction', function(){
+                    game = new Game(options);
+                    var bullet = new Bullet(function(bullet){
+                        bullet.position({ x: 0, y: 0 });
+                        bullet.velocity({ speed: 1, heading: -Math.PI/2 });
+                    });
+                    game.addBullet(bullet);
+
+                    game.tick();
+
+                    expect(bullet.y()).to.equal(4);
                 });
             });
         });
