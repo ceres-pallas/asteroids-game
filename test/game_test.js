@@ -104,8 +104,8 @@ describe('Game', function(){
 
         describe('#addFighter', function(){
             it('should change state when adding asteroid', function(){
-                var asteroid = game.addAsteroid();
-                game.addFighter(asteroid);
+                var fighter = new Fighter();
+                game.addFighter(fighter);
 
                 var state = game.state();
 
@@ -133,15 +133,11 @@ describe('Game', function(){
             });
 
             it('should update the fighters', function(done){
-                var asteroid = game.addAsteroid();
-                game.addFighter(asteroid);
-                var count = 0;
-                asteroid.addListener('position', function(){
-                    count++;
-                    if (count >= 2) {
-                        done();
-                    }
-                });
+				var fighter = new Fighter(function(fighter){
+					fighter.speed(1);
+				});
+                game.addFighter(fighter);
+                fighter.addListener('position', done);
 
                 game.tick();
             });
