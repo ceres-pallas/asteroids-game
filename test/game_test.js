@@ -33,6 +33,28 @@ describe('Game', function(){
             });
         });
 
+        it('should have default options', function(){
+            game = new Game();
+
+            expect(game.options).to.exist;
+            expect(game.options.width).to.exist;
+            expect(game.options.height).to.exist;
+        });
+
+        it('should provide default height', function(){
+            game = new Game({ width: 100 });
+
+            expect(game.options).to.exist;
+            expect(game.options.height).to.exist;
+        });
+
+        it('should provide default width', function(){
+            game = new Game({ height: 100 });
+
+            expect(game.options).to.exist;
+            expect(game.options.width).to.exist;
+        });
+
         describe('#state', function(){
             var state;
 
