@@ -1,6 +1,7 @@
 var expect = require('chai').expect;
 
 var Game = require('../lib/game');
+var Fighter = require('asteroids-fighter');
 
 describe('Game', function(){
     it('should exist', function(){
@@ -172,6 +173,68 @@ describe('Game', function(){
                     game.tick();
 
                     expect(asteroid.y()).to.equal(4);
+                });
+            });
+
+            describe('should normalize fighters', function(){
+                var options;
+
+                beforeEach(function(){
+                    options = {
+                        width: 10,
+                        height: 5
+                    }
+                })
+                it('for to large values in x direction', function(){
+                    game = new Game(options);
+                    var fighter = new Fighter(function(fighter){
+                        fighter.position({ x: 10, y: 0 });
+                        fighter.velocity({ speed: 1, heading: 0 });
+                    });
+                    game.addFighter(fighter);
+
+                    game.tick();
+
+                    expect(fighter.x()).to.equal(1);
+                });
+
+                it('for to negative values in x direction', function(){
+                    game = new Game(options);
+                    var fighter = new Fighter(function(fighter){
+                        fighter.position({ x: 0, y: 0 });
+                        fighter.velocity({ speed: 1, heading: Math.PI });
+                    });
+                    game.addFighter(fighter);
+
+                    game.tick();
+
+                    expect(fighter.x()).to.equal(9);
+                });
+
+                it('for to large values in y direction', function(){
+                    game = new Game(options);
+                    var fighter = new Fighter(function(fighter){
+                        fighter.position({ x: 0, y: 5 });
+                        fighter.velocity({ speed: 1, heading: Math.PI/2 });
+                    });
+                    game.addFighter(fighter);
+
+                    game.tick();
+
+                    expect(fighter.y()).to.equal(1);
+                });
+
+                it('for to negative values in x direction', function(){
+                    game = new Game(options);
+                    var fighter = new Fighter(function(fighter){
+                        fighter.position({ x: 0, y: 0 });
+                        fighter.velocity({ speed: 1, heading: -Math.PI/2 });
+                    });
+                    game.addFighter(fighter);
+
+                    game.tick();
+
+                    expect(fighter.y()).to.equal(4);
                 });
             });
         });
