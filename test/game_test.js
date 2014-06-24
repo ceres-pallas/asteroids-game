@@ -133,9 +133,9 @@ describe('Game', function(){
             });
 
             it('should update the fighters', function(done){
-				var fighter = new Fighter(function(fighter){
-					fighter.speed(1);
-				});
+                var fighter = new Fighter(function(fighter){
+                    fighter.speed(1);
+                });
                 game.addFighter(fighter);
                 fighter.addListener('position', done);
 
@@ -144,8 +144,8 @@ describe('Game', function(){
 
             it('should update the bullets', function(done){
                 var bullet = new Bullet(function(bullet){
-					bullet.speed(1);
-				});
+                    bullet.speed(1);
+                });
                 game.addBullet(bullet);
                 bullet.addListener('position', done);
 
@@ -342,4 +342,51 @@ describe('Game', function(){
             });
         });
     });
+
+    describe('fighter firing', function(){
+        var options = {
+            width: 640,
+            height: 480,
+            bullet: {
+                radius : 1,
+                speed: 10
+            }
+        };
+        var game;
+
+        beforeEach(function(){
+            game = new Game(options);
+        });
+
+        it('should add a bullet', function(){
+            var fighter = new Fighter();
+            game.addFighter(fighter);
+
+            fighter.fire();
+
+            var state = game.state();
+            expect(state.bullets.length).to.equal(1);
+        });
+
+        describe('bullet', function(){
+            it('should have position on bounding circle', function(){
+                var fighter = new Fighter(function(fighter){
+                    fighter.position({ x: 0, y: 0 });
+                    fighter.radius(10);
+                    fighter.orientation(Math.PI/12);
+                    fighter.velocity({ speed: 1, heading: 0 });
+                });
+                game.addFighter(fighter);
+
+                fighter.fire();
+
+                var state = game.state();
+                expect(state.bullets[0].x).to.equal((fighter.radius() + options.bullet.radius) * Math.cos(fighter.orientation()));
+                expect(state.bullets[0].y).to.equal((fighter.radius() + options.bullet.radius) * Math.sin(fighter.orientation()));
+                expect(state.bullets[0].orientation).to.equal(fighter.orientation());
+                expect(state.bullets[0].heading).to.equal(fighter.orientation());
+                expect(state.bullets[0].speed).to.equal(options.bullet.speed);
+            });
+        });
+    })
 });
