@@ -20,9 +20,9 @@
     "url": "https://github.com/ceres-pallas/asteroids-game/issues"
   },
   "dependencies": {
-    "asteroids-asteroid": "0.5.0",
-    "asteroids-bullet": "^0.2.0",
-    "asteroids-fighter": "^0.4.0",
+    "asteroids-asteroid": "0.6.0",
+    "asteroids-bullet": "^0.3.0",
+    "asteroids-fighter": "^0.5.0",
     "asteroids-listener": "0.0.1"
   },
   "devDependencies": {
