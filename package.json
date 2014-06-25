@@ -1,6 +1,6 @@
 {
   "name": "asteroids-game",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "The object managing all the Asteroids objects",
   "main": "lib/game.js",
   "scripts": {
