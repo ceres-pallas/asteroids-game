@@ -361,7 +361,8 @@ describe('Game', function(){
             height: 480,
             bullet: {
                 radius : 1,
-                speed: 10
+                speed: 10,
+				ttl: 60
             }
         };
         var game;
