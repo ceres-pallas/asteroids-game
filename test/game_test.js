@@ -151,6 +151,18 @@ describe('Game', function(){
 
                 game.tick();
             });
+
+
+            it('should remove bullets when time to live is 0', function(){
+                var bullet = new Bullet(function(bullet){
+                    bullet.ttl(1);
+                });
+                game.addBullet(bullet);
+
+                game.tick();
+
+                expect(game.state().bullets.length).to.equal(0);
+            });
         });
 
         describe('#normalisation', function(){
