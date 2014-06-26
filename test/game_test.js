@@ -353,6 +353,28 @@ describe('Game', function(){
                 });
             });
         });
+
+		describe('#collisionDetection', function(){
+			it('should detect collision between bullets and asteroids', function(){
+                options.asteroidInitializer = function(asteroid){
+                    asteroid.position({ x: 0, y: 0 });
+                    asteroid.velocity({ speed: 0, heading: 0 });
+					asteroid.radius(10);
+                };
+				game = new Game(options);
+				game.addAsteroid();
+				var bullet = new Bullet(function(bullet){
+					bullet.position({ x: 12, y: 0 });
+					bullet.radius(2);
+				});
+				game.addBullet(bullet);
+
+				game.tick();
+
+				expect(game.state().asteroids.length).to.equal(0);
+				expect(game.state().bullets.length).to.equal(0);
+			});
+		});
     });
 
     describe('fighter firing', function(){
