@@ -374,6 +374,22 @@ describe('Game', function(){
 				expect(game.state().asteroids.length).to.equal(0);
 				expect(game.state().bullets.length).to.equal(0);
 			});
+
+			it('should detect collision between asteroids', function(){
+				var count = 0;
+                options.asteroidInitializer = function(asteroid){
+                    asteroid.position({ x: 20 * (count++), y: 0 });
+                    asteroid.velocity({ speed: 0, heading: 0 });
+					asteroid.radius(10);
+                };
+				game = new Game(options);
+				game.addAsteroid();
+				game.addAsteroid();
+
+				game.tick();
+
+				expect(game.state().asteroids.length).to.equal(0);
+			});
 		});
     });
 
